@@ -1,16 +1,15 @@
-import { openModal } from "./modal";
+
 import likeActiveSvg from "../../images/like-active.svg";
+import likeInActiveSvg from "../../images/like-inactive.svg";
 
 const cardTemplate = document.querySelector("#card-template").content;
-const popupImageElement = document.querySelector(".popup_type_image");
 
 function createCard(card, deleteEl, likeEl, openPopupEl) {
-  const clonedCardTemplate = cardTemplate.cloneNode(true);
-  const cardElement = clonedCardTemplate.querySelector(".card");
-  const cardImage = clonedCardTemplate.querySelector(".card__image");
-  const titleCard = clonedCardTemplate.querySelector(".card__title");
-  const deleteButton = clonedCardTemplate.querySelector(".card__delete-button");
-  const likeButton = clonedCardTemplate.querySelector(".card__like-button");
+  const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
+  const cardImage = cardElement.querySelector(".card__image");
+  const titleCard = cardElement.querySelector(".card__title");
+  const deleteButton = cardElement.querySelector(".card__delete-button");
+  const likeButton = cardElement.querySelector(".card__like-button");
 
   titleCard.textContent = card.name;
   cardImage.src = card.link;
@@ -25,10 +24,10 @@ function createCard(card, deleteEl, likeEl, openPopupEl) {
   });
 
   cardImage.addEventListener("click", () => {
-    openPopupEl(cardElement);
+    openPopupEl(titleCard.innerHTML, cardImage.src);
   });
 
-  return clonedCardTemplate;
+  return cardElement;
 }
 
 function deleteCard(card) {
@@ -37,15 +36,10 @@ function deleteCard(card) {
 
 function likeCard(card) {
   const likeButtonElement = card.querySelector(".card__like-button");
-  likeButtonElement.style.background = `transparent url(${likeActiveSvg}) no-repeat`;
+  if (likeButtonElement.style.background.indexOf(likeActiveSvg) !== -1) {
+    likeButtonElement.style.background = `transparent url(${likeInActiveSvg}) no-repeat`;
+  }
+  else likeButtonElement.style.background = `transparent url(${likeActiveSvg}) no-repeat`;
 }
 
-function openPopupImage(card) {
-  openModal(popupImageElement);
-  const imageElement = popupImageElement.querySelector(".popup__image");
-  const captionElement = popupImageElement.querySelector(".popup__caption");
-  captionElement.innerHTML = card.querySelector(".card__title").innerHTML;
-  imageElement.src = card.querySelector(".card__image").src;
-}
-
-export { createCard, deleteCard, likeCard, openPopupImage };
+export { createCard, deleteCard, likeCard };
