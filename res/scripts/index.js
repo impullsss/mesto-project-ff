@@ -1,6 +1,5 @@
+import "../pages/index.css";
 import { initialCards } from "./cards.js";
-import "../images/avatar.jpg";
-import("../pages/index.css");
 import { openModal, closeModal } from "./components/modal.js";
 import {
   createCard,
@@ -45,16 +44,15 @@ function initCards() {
   const cardsElement = initialCards.map((card) =>
     createCard(card, deleteCard, likeCard, openPopupImage)
   );
-  cardsElement.forEach((cardElement) => {
-    cardListElement.appendChild(cardElement);
-  });
+  cardListElement.append(...cardsElement);
 }
 
-function openPopupImage(caption, image) {
+function openPopupImage(caption, image, altText) {
   openModal(popupImageElement);
  
   captionElement.innerHTML = caption;
   popupImage.src = image;
+  popupImage.alt = altText;
 }
 
 initCards();
@@ -126,6 +124,6 @@ popupImageElement.addEventListener("click", (evt) => {
     closeModal(popupImageElement);
   }
 });
-document.addEventListener('load',() => {
+document.addEventListener('DOMContentLoaded',() => {
   addPopupClass();
 })

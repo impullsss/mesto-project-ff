@@ -24,7 +24,7 @@ function createCard(card, deleteEl, likeEl, openPopupEl) {
   });
 
   cardImage.addEventListener("click", () => {
-    openPopupEl(titleCard.innerHTML, cardImage.src);
+    openPopupEl(card.name, card.link, card.name);
   });
 
   return cardElement;
@@ -36,10 +36,7 @@ function deleteCard(card) {
 
 function likeCard(card) {
   const likeButtonElement = card.querySelector(".card__like-button");
-  if (likeButtonElement.style.background.indexOf(likeActiveSvg) !== -1) {
-    likeButtonElement.style.background = `transparent url(${likeInActiveSvg}) no-repeat`;
-  }
-  else likeButtonElement.style.background = `transparent url(${likeActiveSvg}) no-repeat`;
+  likeButtonElement.classList.toggle("card__like-button_is-active");
 }
 
 export { createCard, deleteCard, likeCard };
