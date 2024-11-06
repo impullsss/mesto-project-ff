@@ -124,6 +124,3 @@ popupImageElement.addEventListener("click", (evt) => {
     closeModal(popupImageElement);
   }
 });
-document.addEventListener('DOMContentLoaded',() => {
-  addPopupClass();
-})
