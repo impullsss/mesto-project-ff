@@ -11,26 +11,17 @@ const cardListElement = document.querySelector(".places__list");
 const addCardButtonElement = document.querySelector(".profile__add-button");
 const popupNewCardElement = document.querySelector(".popup_type_new-card");
 const popupTypeEditElement = document.querySelector(".popup_type_edit");
-const profileEditButtonElement = document.querySelector(
-  ".profile__edit-button"
-);
+const profileEditButtonElement = document.querySelector(".profile__edit-button");
 const popupImageElement = document.querySelector(".popup_type_image");
 
 const formAddNewCardElement = popupNewCardElement.querySelector(".popup__form"); 
-const nameNameNewCardInput = popupNewCardElement.querySelector(
-  ".popup__input_type_card-name"
-); 
+const nameNameNewCardInput = popupNewCardElement.querySelector(".popup__input_type_card-name"); 
 const urlNewCard = popupNewCardElement.querySelector(".popup__input_type_url"); 
-const formEditProfileElement =
-  popupTypeEditElement.querySelector(".popup__form"); 
+const formEditProfileElement = popupTypeEditElement.querySelector(".popup__form"); 
 const nameInput = popupTypeEditElement.querySelector(".popup__input_type_name"); 
-const jobInput = popupTypeEditElement.querySelector(
-  ".popup__input_type_description"
-); 
+const jobInput = popupTypeEditElement.querySelector(".popup__input_type_description"); 
 const profileFirstNameElement = document.querySelector(".profile__title");
-  const profileDescriptionElement = document.querySelector(
-    ".profile__description"
-  );
+const profileDescriptionElement = document.querySelector(".profile__description");
 const captionElement = popupImageElement.querySelector(".popup__caption");
 const popupImage = popupImageElement.querySelector('.popup__image');
 
@@ -124,3 +115,93 @@ popupImageElement.addEventListener("click", (evt) => {
     closeModal(popupImageElement);
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+const enableValidation = config => {
+	const forms = document.querySelectorAll(config.formSelector)
+
+	forms.forEach(form => {
+		form.addEventListener('submit', event => {
+			event.preventDefault();
+			clearValidation(form, config);
+		})
+
+		const inputs = form.querySelectorAll(config.inputSelector)
+		inputs.forEach(input => {
+			input.addEventListener('input', () => {
+				validateInput(input, config);
+				toggleSubmitButton(form, config); // Обновляем состояние кнопки
+			})
+		})
+
+		// Устанавливаем начальное состояние кнопки после загрузки
+		toggleSubmitButton(form, config);
+	})
+}
+
+function clearValidation(form, config) {
+	resetValidationErrors(form, config);
+	const submitButton = form.querySelector(config.submitButtonSelector);
+	submitButton.disabled = true;
+	submitButton.classList.add(config.inactiveButtonClass);
+}
+
+function resetValidationErrors(form, config) {
+	const inputs = Array.from(form.querySelectorAll(config.inputSelector))
+	inputs.forEach(input => hideError(input, config))
+	toggleSubmitButton(form, config)
+}
+
+function toggleSubmitButton(form, config) {
+	const inputs = Array.from(form.querySelectorAll(config.inputSelector));
+	const submitButton = form.querySelector(config.submitButtonSelector);
+	const isFormValid = inputs.every(input => input.validity.valid);
+	submitButton.disabled = !isFormValid;
+	submitButton.classList.toggle(config.inactiveButtonClass, !isFormValid);
+}
+
+function hideError(input, config) {
+	const errorElement = input.nextElementSibling;
+	if (errorElement) {
+		errorElement.textContent = '';
+		errorElement.classList.remove(config.errorClass);
+	}
+	input.classList.remove(config.inputErrorClass);
+}
+
+const validateInput = (input, config) => {
+	const errorElement = input.nextElementSibling;
+
+	if (!errorElement) {
+		console.warn(`Элемент ошибки не найден для поля: ${input.name}`);
+		return;
+	}
+
+	if (!input.validity.valid) {
+		const errorMessage = input.dataset.errorMessage || input.validationMessage;
+		errorElement.textContent = errorMessage;
+		errorElement.classList.add(config.errorClass);
+		input.classList.add(config.inputErrorClass);
+	} else {
+		hideError(input, config)
+	}
+}
+
+
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}); 
