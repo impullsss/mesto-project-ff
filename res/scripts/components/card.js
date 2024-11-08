@@ -1,14 +1,7 @@
 import likeActiveSvg from "../../images/like-active.svg";
 import likeInActiveSvg from "../../images/like-inactive.svg";
 import { closeModal } from "./modal.js";
-import { likeCardReq, unlikeCard, deleteCard } from "../api.js";
-
-const checkResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка: ${res.status}`);
-};
+import { likeCardReq, unlikeCard, deleteCard} from "../api.js";
 
 const cohortId = "wff-cohort-25";
 const apiUrl = `https://nomoreparties.co/v1/${cohortId}`;
