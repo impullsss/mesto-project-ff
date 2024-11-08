@@ -13,3 +13,16 @@
   position: relative;
   overflow: hidden;
 }
+
+.card__like-count {
+  color: #000;
+  font-size: 13px;
+  line-height: normal;
+  text-align: center;
+}
+
+.card__like-block {
+  display: grid;
+  gap: 5px;
+  justify-items: center;
+}
