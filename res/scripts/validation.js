@@ -50,19 +50,25 @@ function hideError(input, config) {
 }
 
 const validateInput = (input, config) => {
-  const errorElement = input.nextElementSibling;
-
-  if (!errorElement) {
-    console.warn(`Элемент ошибки не найден для поля: ${input.name}`);
-    return;
-  }
-
-  if (!input.validity.valid) {
-    const errorMessage = input.dataset.errorMessage || input.validationMessage;
-    errorElement.textContent = errorMessage;
-    errorElement.classList.add(config.errorClass);
-    input.classList.add(config.inputErrorClass);
-  } else {
-    hideError(input, config);
-  }
-};
+    const errorElement = input.nextElementSibling;
+  
+    if (!errorElement) {
+      console.warn(`Элемент ошибки не найден для поля: ${input.name}`);
+      return;
+    }
+  
+    if (!input.validity.valid) {
+      let errorMessage;
+      if (input.validity.patternMismatch) {
+        errorMessage = input.dataset.errorMessage;
+      } else {
+        errorMessage = input.validationMessage;
+      }
+  
+      errorElement.textContent = errorMessage;
+      errorElement.classList.add(config.errorClass);
+      input.classList.add(config.inputErrorClass);
+    } else {
+      hideError(input, config);
+    }
+  };

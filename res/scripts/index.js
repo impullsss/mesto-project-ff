@@ -2,7 +2,7 @@ import "../pages/index.css";
 import { initialCards } from "./cards.js";
 import { openModal, closeModal } from "./components/modal.js";
 import { createCard, deleteHandler, likeCard } from "./components/card.js";
-import { enableValidation, clearValidation } from "./validation.js";
+import { enableValidation} from "./validation.js";
 import {
   updateUserData,
   getUserData,
@@ -52,7 +52,7 @@ let userId;
 function openPopupImage(caption, image, altText) {
   openModal(popupImageElement);
 
-  captionElement.innerHTML = caption;
+  captionElement.textContent = caption;
   popupImage.src = image;
   popupImage.alt = altText;
 }
@@ -132,7 +132,7 @@ function handleFormAddNewCardSubmit(evt) {
         userId
       );
 
-      cardListElement.insertBefore(newCard, cardListElement.firstElementChild);
+      cardListElement.prepend(newCard, cardListElement.firstElementChild);
 
       nameNameNewCardInput.value = "";
       urlNewCard.value = "";

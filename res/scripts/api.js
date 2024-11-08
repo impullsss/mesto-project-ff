@@ -5,13 +5,7 @@ const cohortId = "wff-cohort-25";
 const apiUrl = `https://nomoreparties.co/v1/${cohortId}`;
 const token = "544bee1c-d2e4-4019-9e40-5133d33728ef";
 
-const config = {
-  baseUrl: "https://nomoreparties.co/v1/cohort-42",
-  headers: {
-    authorization: "544bee1c-d2e4-4019-9e40-5133d33728ef",
-    "Content-Type": "application/json",
-  },
-};
+
 
 const checkResponse = (res) => {
   if (res.ok) {
@@ -86,14 +80,14 @@ export function likeCardReq(cardId) {
   return fetch(`${apiUrl}/cards/likes/${cardId}`, {
     method: "PUT",
     headers: { authorization: token },
-  }).then((res) => res.json());
+  }).then(checkResponse);
 }
 
 export function unlikeCard(cardId) {
   return fetch(`${apiUrl}/cards/likes/${cardId}`, {
     method: "DELETE",
     headers: { authorization: token },
-  }).then((res) => res.json());
+  }).then(checkResponse);
 }
 
 export function deleteCard(cardId) {
